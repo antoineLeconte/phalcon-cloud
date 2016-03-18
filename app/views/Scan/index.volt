@@ -11,6 +11,17 @@
 				<!--
 				//TODO 4.3 implémenter à partir de DisqueController/indexAction
 				-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">Caractéristiques du disque</div>
+                    <div class="panel-body">
+                        <b>Nom :</b> {{ disque.nom }}
+                        <hr/>
+                        <b>Propriétaire :</b> {{ proprietaire.login }} ({{ proprietaire.prenom }} {{ proprietaire.nom }})
+                        <hr/>
+                        <h3>Occupation</h3>
+                        {{  }}
+                    </div>
+                </div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="Listing">
 				<div class="btn-toolbar">

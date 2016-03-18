@@ -24,7 +24,7 @@ class MyDisquesController extends \ControllerBase {
 
 			// Création de la barre d'occupation de l'esapce disque
 			$quotaOctets = $infosDisque['tailleMax'] * ModelUtils::sizeConverter($infosDisque['uniteTailleMax']);
-			$tauxOccupation = floor(($infosDisque['occupationOctets'] / $quotaOctets) * 10000) / 100;
+			$tauxOccupation = round(($infosDisque['occupationOctets'] / $quotaOctets) * 10000) / 100;
 
 			$bootstrap->htmlProgressbar("barreOccupation" . $disque->getId(), "info", $tauxOccupation)
 				->setStyleLimits(Array("progress-bar-info" => 10, "progress-bar-success" => 50,
@@ -53,21 +53,23 @@ class MyDisquesController extends \ControllerBase {
 	// TODO : Convertir la valeur en octets de l'occupation disque en une unité plus approprié
 	private function recupererInfosDisque($disque){
 		$tailleMaxDisque = ModelUtils::getDisqueTarif($disque);
-		$occupationDisque = Historique::findFirst(array(
-			"conditions" => "idDisque = ?1",
-			"bind" => array(1 => $disque->getId()),
-			"order" => "date DESC"
-		));
 
 		$quota = $tailleMaxDisque->getQuota();
 		$uniteQuota = $tailleMaxDisque->getUnite();
-		$espaceUtilise = $occupationDisque->getOccupation();
+		$espaceUtilise = ModelUtils::getDisqueOccupation($this->config->cloud, $disque);
 
 		$infosDisque['tailleMax'] = $quota;
 		$infosDisque['uniteTailleMax'] = $uniteQuota;
 		$infosDisque['occupationOctets'] = $espaceUtilise; // Inutile pour affichage, mais pratique pour calcul taux occupation
-		$infosDisque['occupation'] = $espaceUtilise;
-		$infosDisque['uniteOcupation'] = ''; // TODO : Trouver la putain de bonne unité !!!1
+
+		$indiceUnite = 0;
+		$units= ["o","Ko", "Mo", "Go", "To", "Po"];
+		while($espaceUtilise >= pow(1024, $indiceUnite + 1) && $indiceUnite < count($units)){
+			$indiceUnite++;
+		}
+
+		$infosDisque['occupation'] = round($espaceUtilise / ModelUtils::sizeConverter($units[$indiceUnite]), 2);
+		$infosDisque['uniteOccupation'] = $units[$indiceUnite]; // TODO : Trouver la putain de bonne unité !!!1
 
 		return $infosDisque;
 	}

@@ -8,9 +8,10 @@ class ScanController extends ControllerBase {
 	 */
 	public function indexAction($idDisque) {
 		//TODO 4.3
-		
+		$disque = Disque::findFirst($idDisque);
 
-		$diskName="nom du disque.......................";
+		$diskName= $disque->getNom();
+		$proprietaire = Utilisateur::findFirst($disque->getIdUtilisateur());
 
 
 		$this->jquery->execOn("click", "#ckSelectAll", "$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
@@ -20,6 +21,9 @@ class ScanController extends ControllerBase {
 		$this->jquery->doJQueryOn("click", "#btFrmCreateFolder", "#panelCreateFolder", "toggle");
 		$this->jquery->postFormOn("click", "#btCreateFolder", "Scan/createFolder", "frmCreateFolder","#ajaxResponse");
 		$this->jquery->exec("window.location.hash='';scan('".$diskName."')",true);
+
+		$this->view->setVar('disque', $disque);
+		$this->view->setVar('proprietaire', $proprietaire);
 
 		$this->jquery->compile($this->view);
 	}

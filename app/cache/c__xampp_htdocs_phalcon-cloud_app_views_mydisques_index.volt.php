@@ -8,7 +8,7 @@
     <div class="well well-sm">
         <h3>
             <span class="glyphicon glyphicon-hdd"></span> <?php echo $disque->nom; ?>
-            <span class="badge"><?php echo $infosDisques[$disque->id]['occupation']; ?> /
+            <span class="badge"><?php echo $infosDisques[$disque->id]['occupation']; ?> <?php echo $infosDisques[$disque->id]['uniteOccupation']; ?>/
                 <?php echo $infosDisques[$disque->id]['tailleMax']; ?> <?php echo $infosDisques[$disque->id]['uniteTailleMax']; ?></span>
         </h3>
         <?php echo $q['barreOccupation' . $disque->id]; ?>

@@ -11,6 +11,14 @@
 				<!--
 				//TODO 4.3 implémenter à partir de DisqueController/indexAction
 				-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">Caractéristiques du disque</div>
+                    <div class="panel-body">
+                        <b>Nom :</b> <?php echo $disque->nom; ?>
+                        <hr>
+                        <b>Propriétaire :</b> <?php echo $proprietaire->login; ?> (<?php echo $proprietaire->prenom; ?> <?php echo $proprietaire->nom; ?>)
+                    </div>
+                </div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="Listing">
 				<div class="btn-toolbar">
