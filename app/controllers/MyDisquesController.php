@@ -7,6 +7,7 @@ class MyDisquesController extends \ControllerBase {
 	public function indexAction(){
 		//TODO 4.2
 		$user = Auth::getUser($this);
+		$bootstrap = $this->jquery->bootstrap();
 
 		$this->view->setVar('dIdUser', $user->getId());
 
@@ -18,22 +19,49 @@ class MyDisquesController extends \ControllerBase {
 
 		$infosDisques = Array();
 
-		// TODO : Rassembler occupation disque et infos disques dans un seul tableau
-		// TODO : Convertir la valeur en octets de l'occupation disque
 		foreach($listeDisques as $disque){
-			$infosDisques[$disque->getId()] = ModelUtils::getDisqueTarif($disque);
-			$occupationDisque[$disque->getId()] = Historique::findFirst(array(
-				"conditions" => "idDisque = ?1",
-				"bind" => array(1 => $disque->getId()),
-				"order" => "date DESC"
-			));
+			$infosDisque = $this->recupererInfosDisque($disque);
+
+			$quotaOctets = $infosDisque['tailleMax'] * ModelUtils::sizeConverter($infosDisque['uniteTailleMax']);
+
+			$tauxOccupation = floor(($infosDisque['occupationOctets'] / $quotaOctets) * 10000) / 100;
+
+			$bootstrap->htmlProgressbar("barreOccupation" . $disque->getId(), "info", $tauxOccupation)
+				->setStyleLimits(Array("progress-bar-info" => 10, "progress-bar-success" => 50,
+					"progress-bar-warning" => 80, "progress-bar-danger" => 100))
+				->setStriped(true)
+				->showCaption(true);
+
+
+			$infosDisques[$disque->getId()] = $infosDisque;
 		}
 
 		$this->view->setVar('loginUser', $user->getLogin());
 		$this->view->setVar('disques', $listeDisques);
 		$this->view->setVar('infosDisques', $infosDisques);
-		$this->view->setVar('occupationDisque', $occupationDisque);
 
 		$this->jquery->compile($this->view);
+	}
+
+	// TODO : Convertir la valeur en octets de l'occupation disque en une unité plus approprié
+	private function recupererInfosDisque($disque){
+		$tailleMaxDisque = ModelUtils::getDisqueTarif($disque);
+		$occupationDisque = Historique::findFirst(array(
+			"conditions" => "idDisque = ?1",
+			"bind" => array(1 => $disque->getId()),
+			"order" => "date DESC"
+		));
+
+		$quota = $tailleMaxDisque->getQuota();
+		$uniteQuota = $tailleMaxDisque->getUnite();
+		$espaceUtilise = $occupationDisque->getOccupation();
+
+		$infosDisque['tailleMax'] = $quota;
+		$infosDisque['uniteTailleMax'] = $uniteQuota;
+		$infosDisque['occupationOctets'] = $espaceUtilise;
+		$infosDisque['occupation'] = $espaceUtilise;
+		$infosDisque['uniteOcupation'] = ''; // TODO : Trouver la putain de bonne unité !!!1
+
+		return $infosDisque;
 	}
 }
