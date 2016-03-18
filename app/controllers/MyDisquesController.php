@@ -50,7 +50,6 @@ class MyDisquesController extends \ControllerBase {
 		$this->jquery->compile($this->view);
 	}
 
-	// TODO : Convertir la valeur en octets de l'occupation disque en une unité plus approprié
 	private function recupererInfosDisque($disque){
 		$tailleMaxDisque = ModelUtils::getDisqueTarif($disque);
 
@@ -69,7 +68,7 @@ class MyDisquesController extends \ControllerBase {
 		}
 
 		$infosDisque['occupation'] = round($espaceUtilise / ModelUtils::sizeConverter($units[$indiceUnite]), 2);
-		$infosDisque['uniteOccupation'] = $units[$indiceUnite]; // TODO : Trouver la putain de bonne unité !!!1
+		$infosDisque['uniteOccupation'] = $units[$indiceUnite];
 
 		return $infosDisque;
 	}

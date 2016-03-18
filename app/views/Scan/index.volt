@@ -19,7 +19,10 @@
                         <b>Propriétaire :</b> {{ proprietaire.login }} ({{ proprietaire.prenom }} {{ proprietaire.nom }})
                         <hr/>
                         <h3>Occupation</h3>
-                        {{  }}
+                        <hr/>
+                        <h3>Tarification</h3>
+                        prix : {{ tarif.prix }} €, Marge de dépassement : {{ tarif.margeDepassement * 100 }} %,
+                        Coût de dépassement : {{ tarif.coutDepassement }} €
                     </div>
                 </div>
 			</div>

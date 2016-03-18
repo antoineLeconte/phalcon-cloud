@@ -15,8 +15,14 @@
                     <div class="panel-heading">Caractéristiques du disque</div>
                     <div class="panel-body">
                         <b>Nom :</b> <?php echo $disque->nom; ?>
-                        <hr>
+                        <hr/>
                         <b>Propriétaire :</b> <?php echo $proprietaire->login; ?> (<?php echo $proprietaire->prenom; ?> <?php echo $proprietaire->nom; ?>)
+                        <hr/>
+                        <h3>Occupation</h3>
+                        <hr/>
+                        <h3>Tarification</h3>
+                        prix : <?php echo $tarif->prix; ?> €, Marge de dépassement : <?php echo $tarif->margeDepassement * 100; ?> %,
+                        Coût de dépassement : <?php echo $tarif->coutDepassement; ?> €
                     </div>
                 </div>
 			</div>
