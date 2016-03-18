@@ -12,6 +12,8 @@
                 <?php echo $infosDisques[$disque->id]['tailleMax']; ?> <?php echo $infosDisques[$disque->id]['uniteTailleMax']; ?></span>
         </h3>
         <?php echo $q['barreOccupation' . $disque->id]; ?>
-
+        <?php echo $q['boutonOuverture' . $disque->id]; ?>
     </div>
 <?php } ?>
+
+<?php echo $script_foot; ?>

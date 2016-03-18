@@ -12,6 +12,8 @@
                 {{ infosDisques[disque.id]['tailleMax'] }} {{ infosDisques[disque.id]['uniteTailleMax'] }}</span>
         </h3>
         {{ q['barreOccupation' ~ disque.id] }}
-
+        {{ q['boutonOuverture' ~ disque.id] }}
     </div>
 {% endfor %}
+
+{{ script_foot }}

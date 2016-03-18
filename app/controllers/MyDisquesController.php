@@ -22,8 +22,8 @@ class MyDisquesController extends \ControllerBase {
 		foreach($listeDisques as $disque){
 			$infosDisque = $this->recupererInfosDisque($disque);
 
+			// Création de la barre d'occupation de l'esapce disque
 			$quotaOctets = $infosDisque['tailleMax'] * ModelUtils::sizeConverter($infosDisque['uniteTailleMax']);
-
 			$tauxOccupation = floor(($infosDisque['occupationOctets'] / $quotaOctets) * 10000) / 100;
 
 			$bootstrap->htmlProgressbar("barreOccupation" . $disque->getId(), "info", $tauxOccupation)
@@ -32,6 +32,11 @@ class MyDisquesController extends \ControllerBase {
 				->setStriped(true)
 				->showCaption(true);
 
+			// Création du bouton d'envoi vers Scan/:id
+			$bootstrap->htmlGlyphButton("boutonOuverture" . $disque->getId(), "glyphicon-folder-open", "Ouvrir")
+				->addToProperty("class", "btOpen");
+
+			$this->jquery->getOnClick("#boutonOuverture" . $disque->getId(), 'scan/' . $disque->getId(), '#content');
 
 			$infosDisques[$disque->getId()] = $infosDisque;
 		}
@@ -58,7 +63,7 @@ class MyDisquesController extends \ControllerBase {
 
 		$infosDisque['tailleMax'] = $quota;
 		$infosDisque['uniteTailleMax'] = $uniteQuota;
-		$infosDisque['occupationOctets'] = $espaceUtilise;
+		$infosDisque['occupationOctets'] = $espaceUtilise; // Inutile pour affichage, mais pratique pour calcul taux occupation
 		$infosDisque['occupation'] = $espaceUtilise;
 		$infosDisque['uniteOcupation'] = ''; // TODO : Trouver la putain de bonne unité !!!1
 
