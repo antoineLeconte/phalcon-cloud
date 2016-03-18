@@ -1,8 +1,3 @@
-<p>
-    Debug : <br/>
-    Id User : <?php echo $dIdUser; ?> <br/>
-</p>
-
 <h2>Mes disques -> <?php echo $loginUser; ?></h2>
 <?php foreach ($disques as $disque) { ?>
     <div class="well well-sm">

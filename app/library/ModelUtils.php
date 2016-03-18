@@ -28,6 +28,29 @@ class ModelUtils {
 		return $tarif;
 	}
 
+	public static function recupererInfosDisque($cloud, $disque){
+		$tailleMaxDisque = ModelUtils::getDisqueTarif($disque);
+
+		$quota = $tailleMaxDisque->getQuota();
+		$uniteQuota = $tailleMaxDisque->getUnite();
+		$espaceUtilise = ModelUtils::getDisqueOccupation($cloud, $disque);
+
+		$infosDisque['tailleMax'] = $quota;
+		$infosDisque['uniteTailleMax'] = $uniteQuota;
+		$infosDisque['occupationOctets'] = $espaceUtilise; // Inutile pour affichage, mais pratique pour calcul taux occupation
+
+		$indiceUnite = 0;
+		$units= ["o","Ko", "Mo", "Go", "To", "Po"];
+		while($espaceUtilise >= pow(1024, $indiceUnite + 1) && $indiceUnite < count($units)){
+			$indiceUnite++;
+		}
+
+		$infosDisque['occupation'] = round($espaceUtilise / ModelUtils::sizeConverter($units[$indiceUnite]), 2);
+		$infosDisque['uniteOccupation'] = $units[$indiceUnite];
+
+		return $infosDisque;
+	}
+
 	/**
 	 * Convertit une unité en nombre d'octets (1 Ko= 1024 o)
 	 * @param String $unit unité à convertir (o, Ko, Mo, Go, To, Po)

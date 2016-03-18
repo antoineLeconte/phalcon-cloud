@@ -19,6 +19,8 @@
                         <b>Propriétaire :</b> {{ proprietaire.login }} ({{ proprietaire.prenom }} {{ proprietaire.nom }})
                         <hr/>
                         <h3>Occupation</h3>
+                        {{ infosDisque['occupation'] }} {{ infosDisque['uniteOccupation'] }} / {{ infosDisque['tailleMax'] }}
+                        {{ infosDisque['uniteTailleMax'] }}
                         <hr/>
                         <h3>Tarification</h3>
                         prix : {{ tarif.prix }} €, Marge de dépassement : {{ tarif.margeDepassement * 100 }} %,

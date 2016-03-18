@@ -1,8 +1,3 @@
-<p>
-    Debug : <br/>
-    Id User : {{ dIdUser }} <br/>
-</p>
-
 <h2>Mes disques -> {{ loginUser }}</h2>
 {% for disque in disques %}
     <div class="well well-sm">

@@ -20,7 +20,7 @@ class MyDisquesController extends \ControllerBase {
 		$infosDisques = Array();
 
 		foreach($listeDisques as $disque){
-			$infosDisque = $this->recupererInfosDisque($disque);
+			$infosDisque = ModelUtils::recupererInfosDisque($this->config->cloud, $disque);
 
 			// Création de la barre d'occupation de l'esapce disque
 			$quotaOctets = $infosDisque['tailleMax'] * ModelUtils::sizeConverter($infosDisque['uniteTailleMax']);
@@ -48,28 +48,5 @@ class MyDisquesController extends \ControllerBase {
 		$this->view->setVar('infosDisques', $infosDisques);
 
 		$this->jquery->compile($this->view);
-	}
-
-	private function recupererInfosDisque($disque){
-		$tailleMaxDisque = ModelUtils::getDisqueTarif($disque);
-
-		$quota = $tailleMaxDisque->getQuota();
-		$uniteQuota = $tailleMaxDisque->getUnite();
-		$espaceUtilise = ModelUtils::getDisqueOccupation($this->config->cloud, $disque);
-
-		$infosDisque['tailleMax'] = $quota;
-		$infosDisque['uniteTailleMax'] = $uniteQuota;
-		$infosDisque['occupationOctets'] = $espaceUtilise; // Inutile pour affichage, mais pratique pour calcul taux occupation
-
-		$indiceUnite = 0;
-		$units= ["o","Ko", "Mo", "Go", "To", "Po"];
-		while($espaceUtilise >= pow(1024, $indiceUnite + 1) && $indiceUnite < count($units)){
-			$indiceUnite++;
-		}
-
-		$infosDisque['occupation'] = round($espaceUtilise / ModelUtils::sizeConverter($units[$indiceUnite]), 2);
-		$infosDisque['uniteOccupation'] = $units[$indiceUnite];
-
-		return $infosDisque;
 	}
 }

@@ -13,6 +13,7 @@ class ScanController extends ControllerBase {
 		$diskName= $disque->getNom();
 		$proprietaire = Utilisateur::findFirst($disque->getIdUtilisateur());
 		$tarif = ModelUtils::getDisqueTarif($disque);
+		$infosDisque = ModelUtils::recupererInfosDisque($this->config->cloud, $disque);
 
 
 		$this->jquery->execOn("click", "#ckSelectAll", "$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
@@ -26,6 +27,7 @@ class ScanController extends ControllerBase {
 		$this->view->setVar('disque', $disque);
 		$this->view->setVar('proprietaire', $proprietaire);
 		$this->view->setVar('tarif', $tarif);
+		$this->view->setVar('infosDisque', $infosDisque);
 
 		$this->jquery->compile($this->view);
 	}

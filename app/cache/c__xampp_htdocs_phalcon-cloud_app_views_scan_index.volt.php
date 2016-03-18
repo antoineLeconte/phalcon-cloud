@@ -19,6 +19,8 @@
                         <b>Propriétaire :</b> <?php echo $proprietaire->login; ?> (<?php echo $proprietaire->prenom; ?> <?php echo $proprietaire->nom; ?>)
                         <hr/>
                         <h3>Occupation</h3>
+                        <?php echo $infosDisque['occupation']; ?> <?php echo $infosDisque['uniteOccupation']; ?> / <?php echo $infosDisque['tailleMax']; ?>
+                        <?php echo $infosDisque['uniteTailleMax']; ?>
                         <hr/>
                         <h3>Tarification</h3>
                         prix : <?php echo $tarif->prix; ?> €, Marge de dépassement : <?php echo $tarif->margeDepassement * 100; ?> %,
