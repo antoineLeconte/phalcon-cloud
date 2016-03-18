@@ -8,6 +8,8 @@ class ScanController extends ControllerBase {
 	 */
 	public function indexAction($idDisque) {
 		//TODO 4.3
+		
+
 		$diskName="nom du disque.......................";
 
 

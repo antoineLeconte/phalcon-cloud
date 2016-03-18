@@ -34,9 +34,11 @@ class MyDisquesController extends \ControllerBase {
 
 			// Création du bouton d'envoi vers Scan/:id
 			$bootstrap->htmlGlyphButton("boutonOuverture" . $disque->getId(), "glyphicon-folder-open", "Ouvrir")
-				->addToProperty("class", "btOpen");
+				->addToProperty("class", "btOpen") // Quand ça existe déjà
+				->setProperty("data-ajax", $disque->getId()); // Quand c'est pas déjà défini
 
-			$this->jquery->getOnClick("#boutonOuverture" . $disque->getId(), 'scan/' . $disque->getId(), '#content');
+			$this->jquery->getOnClick("#boutonOuverture" . $disque->getId(), 'scan/1/', '#content',
+				Array('attr' => "data-ajax"));
 
 			$infosDisques[$disque->getId()] = $infosDisque;
 		}
