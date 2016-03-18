@@ -39,6 +39,9 @@ class ModelUtils {
 		$infosDisque['uniteTailleMax'] = $uniteQuota;
 		$infosDisque['occupationOctets'] = $espaceUtilise; // Inutile pour affichage, mais pratique pour calcul taux occupation
 
+		$quotaOctets = $infosDisque['tailleMax'] * ModelUtils::sizeConverter($infosDisque['uniteTailleMax']);
+		$infosDisque['tauxOccupation'] = round(($infosDisque['occupationOctets'] / $quotaOctets) * 10000) / 100;
+
 		$indiceUnite = 0;
 		$units= ["o","Ko", "Mo", "Go", "To", "Po"];
 		while($espaceUtilise >= pow(1024, $indiceUnite + 1) && $indiceUnite < count($units)){

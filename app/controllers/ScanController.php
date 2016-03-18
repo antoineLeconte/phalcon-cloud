@@ -8,6 +8,8 @@ class ScanController extends ControllerBase {
 	 */
 	public function indexAction($idDisque) {
 		//TODO 4.3
+		$bootstrap = $this->jquery->bootstrap();
+
 		$disque = Disque::findFirst($idDisque);
 
 		$diskName= $disque->getNom();
@@ -15,6 +17,19 @@ class ScanController extends ControllerBase {
 		$tarif = ModelUtils::getDisqueTarif($disque);
 		$infosDisque = ModelUtils::recupererInfosDisque($this->config->cloud, $disque);
 
+		if($infosDisque['tauxOccupation'] <= 10){
+			$texteLabel = "Peu occupé";
+			$styleLabel = "info";
+		} elseif($infosDisque['tauxOccupation'] > 10 && $infosDisque['tauxOccupation'] <= 50){
+			$texteLabel = "RAS";
+			$styleLabel = "success";
+		} elseif($infosDisque['tauxOccupation'] > 50 && $infosDisque['tauxOccupation'] <= 80){
+			$texteLabel = "Forte saturation";
+			$styleLabel = "warning";
+		} else {
+			$texteLabel = "Proche saturation";
+			$styleLabel = "danger";
+		}
 
 		$this->jquery->execOn("click", "#ckSelectAll", "$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
 		$this->jquery->execOn("click","#btUpload","$('#tabsMenu a:last').tab('show');");
@@ -28,6 +43,8 @@ class ScanController extends ControllerBase {
 		$this->view->setVar('proprietaire', $proprietaire);
 		$this->view->setVar('tarif', $tarif);
 		$this->view->setVar('infosDisque', $infosDisque);
+		$this->view->setVar('texteLabel', $texteLabel);
+		$this->view->setVar('styleLabel', $styleLabel);
 
 		$this->jquery->compile($this->view);
 	}

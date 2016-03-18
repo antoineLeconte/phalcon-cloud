@@ -20,7 +20,10 @@
                         <hr/>
                         <h3>Occupation</h3>
                         <?php echo $infosDisque['occupation']; ?> <?php echo $infosDisque['uniteOccupation']; ?> / <?php echo $infosDisque['tailleMax']; ?>
-                        <?php echo $infosDisque['uniteTailleMax']; ?>
+                        <?php echo $infosDisque['uniteTailleMax']; ?> <br/>
+                        <div class="label label-<?php echo $styleLabel; ?> ">
+                            <?php echo $texteLabel; ?>
+                        </div>
                         <hr/>
                         <h3>Tarification</h3>
                         prix : <?php echo $tarif->prix; ?> €, Marge de dépassement : <?php echo $tarif->margeDepassement * 100; ?> %,

@@ -9,13 +9,10 @@ class MyDisquesController extends \ControllerBase {
 		$user = Auth::getUser($this);
 		$bootstrap = $this->jquery->bootstrap();
 
-		$this->view->setVar('dIdUser', $user->getId());
-
 		$listeDisques = Disque::find(Array(
 			'conditions' => 'idUtilisateur = ?1',
 			'bind' => array(1 => $user->getId())
 		));
-
 
 		$infosDisques = Array();
 
@@ -23,10 +20,7 @@ class MyDisquesController extends \ControllerBase {
 			$infosDisque = ModelUtils::recupererInfosDisque($this->config->cloud, $disque);
 
 			// Création de la barre d'occupation de l'esapce disque
-			$quotaOctets = $infosDisque['tailleMax'] * ModelUtils::sizeConverter($infosDisque['uniteTailleMax']);
-			$tauxOccupation = round(($infosDisque['occupationOctets'] / $quotaOctets) * 10000) / 100;
-
-			$bootstrap->htmlProgressbar("barreOccupation" . $disque->getId(), "info", $tauxOccupation)
+			$bootstrap->htmlProgressbar("barreOccupation" . $disque->getId(), "info", $infosDisque['tauxOccupation'])
 				->setStyleLimits(Array("progress-bar-info" => 10, "progress-bar-success" => 50,
 					"progress-bar-warning" => 80, "progress-bar-danger" => 100))
 				->setStriped(true)

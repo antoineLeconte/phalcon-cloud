@@ -20,7 +20,10 @@
                         <hr/>
                         <h3>Occupation</h3>
                         {{ infosDisque['occupation'] }} {{ infosDisque['uniteOccupation'] }} / {{ infosDisque['tailleMax'] }}
-                        {{ infosDisque['uniteTailleMax'] }}
+                        {{ infosDisque['uniteTailleMax'] }} <br/>
+                        <div class="label label-{{ styleLabel }} ">
+                            {{ texteLabel }}
+                        </div>
                         <hr/>
                         <h3>Tarification</h3>
                         prix : {{ tarif.prix }} €, Marge de dépassement : {{ tarif.margeDepassement * 100 }} %,
